@@ -82,7 +82,9 @@ module tb_alu_top();
         // 3. 测试时序逻辑：乘法 (MUL)
         // 需要发 start 脉冲，并等待 ready
         @(posedge clk);
-        a = 32'd25; b = 32'd4; alu_op = OP_MUL; start = 1;
+        a = 32'd25; b = 32'd4; alu_op = OP_MUL; 
+        @(posedge clk);
+        start = 1;
         @(posedge clk);
         start = 0; // 撤销 start
         
@@ -94,7 +96,9 @@ module tb_alu_top();
 
         // 4. 测试时序逻辑：除法 (DIV)
         @(posedge clk);
-        a = 32'd100; b = 32'd7; alu_op = OP_DIV; start = 1;
+        a = 32'd100; b = 32'd7; alu_op = OP_DIV; 
+        @(posedge clk);
+        start = 1;
         @(posedge clk);
         start = 0;
         
