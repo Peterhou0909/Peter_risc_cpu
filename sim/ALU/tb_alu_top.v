@@ -83,11 +83,10 @@ module tb_alu_top();
         // 需要发 start 脉冲，并等待 ready
         @(posedge clk);
         a = 32'd25; b = 32'd4; alu_op = OP_MUL; 
-        @(posedge clk);
         start = 1;
         @(posedge clk);
         start = 0; // 撤销 start
-        
+        repeat(2) @(posedge clk);
         wait(ready == 1); // 等待乘法器数 32 个周期
         if (alu_out === 32'd100)
             $display("[PASS] MUL: 25 * 4 = 100 (Multi-cycle)");
@@ -97,11 +96,10 @@ module tb_alu_top();
         // 4. 测试时序逻辑：除法 (DIV)
         @(posedge clk);
         a = 32'd100; b = 32'd7; alu_op = OP_DIV; 
-        @(posedge clk);
         start = 1;
         @(posedge clk);
         start = 0;
-        
+        repeat(2) @(posedge clk);
         wait(ready == 1);
         if (alu_out === 32'd14 && alu_out_hi === 32'd2)
             $display("[PASS] DIV: 100 / 7 = 14 rem 2 (Multi-cycle)");
