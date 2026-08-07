@@ -72,7 +72,7 @@ module tb_reg_file();
 
         // 3. 写使能测试：we=0 时不应写入
         @(posedge clk);
-        wa = 5'd3; wd = 32'hFFFF_FFFF; we = 0; // 注意这里 we=0
+        wa = 5'd3; wd = 32'hFFFF_FFFF; we = 0; 
         @(posedge clk);
         ra1 = 5'd3;
         #1;

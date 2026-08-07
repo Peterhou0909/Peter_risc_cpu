@@ -5,7 +5,7 @@
 // 
 // Create Date:
 // Design Name: 
-// Module Name: 
+// Module Name: reg
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
