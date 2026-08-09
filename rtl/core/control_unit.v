@@ -18,6 +18,8 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+`timescale 1ns / 1ps
+`timescale 1ns / 1ps
 
 module control_unit (
     input  wire        clk,
@@ -70,7 +72,7 @@ module control_unit (
         else        current_state <= next_state;
     end
 
-    // 2. 下一状态判断 (增加对指令类型的细分)
+    // 2. 下一状态判断
     always @(*) begin
         case (current_state)
             IF:  next_state = ID;
@@ -95,7 +97,7 @@ module control_unit (
 
     // 3. 控制信号生成
     always @(*) begin
-        // 默认值清零，防止 Latch
+        // 默认值清零
         reg_write = 0; mem_write = 0; alu_start = 0;
         mem_to_reg = 0; pc_write = 0; alu_op = 4'b0000;
         alu_src_b = 0; pc_src = 2'b00; reg_dst = 0; 
@@ -103,14 +105,13 @@ module control_unit (
 
         case (current_state)
             IF: begin
-                i_or_d   = 0;   // 内存地址选 PC
-                ir_write = 1;   // 允许锁存指令到 IR
-                pc_write = 1;   // 更新 PC = PC + 4
+                i_or_d   = 0;
+                ir_write = 1;
+                pc_write = 1;
                 pc_src   = 2'b00;
             end
 
             ID: begin
-                // 解码阶段，如果是 J 指令直接在这里完成跳转
                 if (opcode == OP_J) begin
                     pc_src   = 2'b10;
                     pc_write = 1;
@@ -118,7 +119,6 @@ module control_unit (
             end
 
             EXE: begin
-                // ALU 运算逻辑
                 case (opcode)
                     OP_ADD, OP_ADDI, OP_LW, OP_SW: alu_op = 4'b0000;
                     OP_SUB, OP_BEQ,  OP_BNE:       alu_op = 4'b0001;
@@ -132,14 +132,13 @@ module control_unit (
                     OP_DIV:                        alu_op = 4'b1001;
                 endcase
 
-                // 立即数选择
                 if (opcode >= OP_ADDI && opcode <= OP_SW) alu_src_b = 1;
 
-                // 乘除法启动
-                if ((opcode == OP_MUL || opcode == OP_DIV) && !alu_ready)
-                    alu_start = 1;
+                if (opcode == OP_MUL || opcode == OP_DIV) begin
+                    alu_start = alu_ready;   // 空闲时启动，计算时保持0
+                end
 
-                // 分支跳转逻辑
+                // 分支跳转
                 if ((opcode == OP_BEQ && alu_zero) || (opcode == OP_BNE && !alu_zero)) begin
                     pc_src   = 2'b01;
                     pc_write = 1;
@@ -147,17 +146,15 @@ module control_unit (
             end
 
             MEM: begin
-                i_or_d = 1; // 内存地址切换为 ALU 结果 (数据地址)
+                i_or_d = 1;
                 if (opcode == OP_SW) mem_write = 1;
             end
 
             WB: begin
                 reg_write = 1;
                 if (opcode == OP_LW) mem_to_reg = 1;
-                
-                // 决定写回哪个寄存器
-                if (opcode <= OP_SLT) reg_dst = 1; // R型指令写 RD
-                else                  reg_dst = 0; // I型指令写 RT
+                if (opcode <= OP_SLT) reg_dst = 1;
+                else                  reg_dst = 0;
             end
         endcase
     end

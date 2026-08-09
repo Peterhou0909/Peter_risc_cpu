@@ -18,6 +18,7 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+`timescale 1ns / 1ps
 
 module datapath (
     input  wire        clk,
@@ -35,6 +36,9 @@ module datapath (
     input  wire        i_or_d,     
     input  wire        ir_write,
   
+    // 新增：当前状态，用于在EXE阶段锁存ALU结果
+    input  wire [2:0]  state,
+
     // 给控制单元的状态信号
     output wire [5:0]  opcode,
     output wire        alu_ready,
@@ -50,7 +54,10 @@ module datapath (
     output wire [31:0] alu_result
 );
 
-    // --- 1. 指令寄存器 (Instruction Register, IR) ---
+    // 状态常量
+    localparam EXE = 3'b010;
+
+    // --- 1. 指令寄存器 ---
     reg [31:0] ir;
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) ir <= 32'd0;
@@ -63,15 +70,14 @@ module datapath (
     // --- 2. PC 寄存器逻辑 ---
     reg  [31:0] pc;
     wire [31:0] pc_next;
-    wire [31:0] pc_plus_4 = pc + 4;
-    
-    // 跳转目标计算
+
+    // 跳转目标计算（pc 已在 IF 阶段更新为当前指令地址+4）
     wire [31:0] imm_ext = {{16{instr[15]}}, instr[15:0]};
-    wire [31:0] pc_branch = pc_plus_4 + (imm_ext << 2);
-    wire [31:0] pc_jump   = {pc_plus_4[31:28], instr[25:0], 2'b00};
+    wire [31:0] pc_branch = pc + (imm_ext << 2);   // 基址为 pc
+    wire [31:0] pc_jump   = {pc[31:28], instr[25:0], 2'b00}; // 高4位取自 pc
 
     assign pc_next = (pc_src == 2'b10) ? pc_jump :
-                     (pc_src == 2'b01) ? pc_branch : pc_plus_4;
+                     (pc_src == 2'b01) ? pc_branch : pc + 4;
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) pc <= 32'd0;
@@ -80,14 +86,28 @@ module datapath (
 
     assign pc_out = pc;
 
-    // --- 3. 内存地址选择 Mux ---
-    wire [31:0] alu_out, alu_out_hi;
-    assign mem_addr = i_or_d ? alu_out : pc; 
+    // --- 3. ALU 结果锁存（用于后续 MEM/WB）---
+    wire [31:0] alu_out, alu_out_hi;    // 来自 alu_top
+    reg  [31:0] alu_out_reg;            // 锁存器
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            alu_out_reg <= 32'd0;
+        end else begin
+            // 在 EXE 阶段且 alu_ready 有效时锁存结果
+            if (state == EXE && alu_ready) begin
+                alu_out_reg <= alu_out;
+            end
+        end
+    end
+
+    // 存储器地址使用锁存结果
+    assign mem_addr = i_or_d ? alu_out_reg : pc; 
 
     // --- 4. 寄存器堆 ---
     wire [31:0] rd1, rd2;
     wire [4:0]  write_reg  = reg_dst ? instr[15:11] : instr[20:16];
-    wire [31:0] write_data = mem_to_reg ? mem_dout : alu_out;
+    wire [31:0] write_data = mem_to_reg ? mem_dout : alu_out_reg;  // 使用锁存结果
 
     reg_file rf (
         .clk(clk), .rst_n(rst_n), .we(reg_write),

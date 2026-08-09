@@ -18,6 +18,7 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+`timescale 1ns / 1ps
 
 module top_cpu (
     input  wire        clk,
@@ -42,6 +43,7 @@ module top_cpu (
     wire [5:0] opcode;
     wire       alu_ready;
     wire       alu_zero;
+    wire [2:0] current_state;    
 
     wire [31:0] mem_addr;
     wire [31:0] mem_din;
@@ -54,7 +56,7 @@ module top_cpu (
         .opcode(opcode),
         .alu_ready(alu_ready),
         .alu_zero(alu_zero),
-        .current_state(), // 悬空或连调试信号
+        .current_state(current_state),   
         
         .reg_write(reg_write),
         .mem_write(mem_write),
@@ -83,6 +85,7 @@ module top_cpu (
         .pc_write(pc_write_sig), 
         .ir_write(ir_write_sig), 
         .i_or_d(i_or_d),
+        .state(current_state),           
         
         .opcode(opcode),
         .alu_ready(alu_ready),
