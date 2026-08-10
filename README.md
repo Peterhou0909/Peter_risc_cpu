@@ -17,44 +17,44 @@
 
 Peter_risc_cpu
 ├── doc
-│   └── datapath.png
+│ └── datapath.png
 ├── README.md
 ├── rtl
-│   ├── ALU
-│   │   ├── adder_kogger_stone.v
-│   │   ├── alu_top.v
-│   │   ├── divider.v
-│   │   ├── multiplier.v
-│   │   └── subtractor.v
-│   ├── core
-│   │   ├── control_unit.v
-│   │   ├── datapath.v
-│   │   └── top_cpu.v
-│   └── storage
-│   ├── mem.v
-│   └── reg.v
+│ ├── ALU
+│ │ ├── adder_kogger_stone.v
+│ │ ├── alu_top.v
+│ │ ├── divider.v
+│ │ ├── multiplier.v
+│ │ └── subtractor.v
+│ ├── core
+│ │ ├── control_unit.v
+│ │ ├── datapath.v
+│ │ └── top_cpu.v
+│ └── storage
+│ ├── mem.v
+│ └── reg.v
 ├── sim
-│   ├── bash
-│   │   ├── run_sim.bat
-│   │   └── run_sim.sh
-│   └── vcd
-│   ├── dump_add.vcd
-│   ├── dump_alu_top.vcd
-│   ├── dump_core.vcd
-│   ├── dump_div.vcd
-│   ├── dump_mem.vcd
-│   ├── dump_mul.vcd
-│   ├── dump_reg.vcd
-│   ├── dump_sub.vcd
+│ ├── bash
+│ │ ├── run_sim.bat
+│ │ └── run_sim.sh
+│ └── vcd
+│ ├── dump_add.vcd
+│ ├── dump_alu_top.vcd
+│ ├── dump_core.vcd
+│ ├── dump_div.vcd
+│ ├── dump_mem.vcd
+│ ├── dump_mul.vcd
+│ ├── dump_reg.vcd
+│ └── dump_sub.vcd
 └── tb
 ├── ALU
-│   ├── tb_adder_kogger_stone.v
-│   ├── tb_alu_top.v
-│   ├── tb_divider.v
-│   ├── tb_multiplier.v
-│   └── tb_subtractor.v
+│ ├── tb_adder_kogger_stone.v
+│ ├── tb_alu_top.v
+│ ├── tb_divider.v
+│ ├── tb_multiplier.v
+│ └── tb_subtractor.v
 ├── core
-│   └── tb_core.v
+│ └── tb_core.v
 └── storage
 ├── tb_mem.v
 └── tb_reg.v

@@ -86,17 +86,17 @@ sim\bash\run_sim.bat all
 ```
 
 运行单个模块
-
-模块｜ Mac ｜Windows
-加法器｜ ./run_sim.sh adder ｜run_sim.bat adder
-减法器 ｜./run_sim.sh subtractor｜ run_sim.bat subtractor
-乘法器｜ ./run_sim.sh multiplier ｜run_sim.bat multiplier
-除法器｜./run_sim.sh divider ｜run_sim.bat divider
-ALU ｜./run_sim.sh alu ｜run_sim.bat alu
-存储器｜ ./run_sim.sh mem ｜run_sim.bat mem
-寄存器堆｜ ./run_sim.sh reg ｜run_sim.bat reg
-CPU ｜./run_sim.sh core ｜run_sim.bat core
-全部｜ ./run_sim.sh all｜ run_sim.bat all
+| 模块 | Mac | Windows |
+|------|-----|---------|
+| 加法器 | `./run_sim.sh adder` | `run_sim.bat adder` |
+| 减法器 | `./run_sim.sh subtractor` | `run_sim.bat subtractor` |
+| 乘法器 | `./run_sim.sh multiplier` | `run_sim.bat multiplier` |
+| 除法器 | `./run_sim.sh divider` | `run_sim.bat divider` |
+| ALU | `./run_sim.sh alu` | `run_sim.bat alu` |
+| 存储器 | `./run_sim.sh mem` | `run_sim.bat mem` |
+| 寄存器堆 | `./run_sim.sh reg` | `run_sim.bat reg` |
+| CPU | `./run_sim.sh core` | `run_sim.bat core` |
+| 全部 | `./run_sim.sh all` | `run_sim.bat all` |
 
 ## 查看波形
 
@@ -104,8 +104,9 @@ CPU ｜./run_sim.sh core ｜run_sim.bat core
 
 ```bash
 surfer sim/vcd/cpu_sim.vcd
-Windows (GTKWave)
 ```
+
+### Windows (GTKWave)
 
 ```cmd
 gtkwave sim/vcd/cpu_sim.vcd
