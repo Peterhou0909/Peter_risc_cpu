@@ -51,6 +51,8 @@ module tb_divider_seq();
 
     // 2. 仿真过程
     initial begin
+        $dumpfile("dump_div.vcd");
+        $dumpvars(0, uut);
         // 初始化
         rst_n = 0;
         start = 0;

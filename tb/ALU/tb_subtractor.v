@@ -37,6 +37,8 @@ module subtractor32_tb;
     );
 
     initial begin
+        $dumpfile("dump_sub.vcd");
+        $dumpvars(0, uut);      
         // 1. 设置输入值 (100 - 40)
         a = 32'd100;
         b = 32'd40;

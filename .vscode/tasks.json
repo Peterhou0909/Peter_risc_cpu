@@ -1,0 +1,103 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    // ============================================================
+    // 1. Kogge-Stone 加法器 (组合逻辑)
+    // ============================================================
+    {
+      "label": "Run (Kogge-Stone Adder)",
+      "type": "shell",
+      "command": "iverilog -o sim/vcd/tb_adder ${workspaceFolder}/rtl/ALU/adder_kogger_stone.v ${workspaceFolder}/tb/ALU/tb_adder_kogger_stone.v && cd sim/vcd && vvp tb_adder && surfer dump_adder.vcd",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+
+    // ============================================================
+    // 2. 减法器 (组合逻辑)
+    // ============================================================
+    {
+      "label": "Run (Subtractor)",
+      "type": "shell",
+      "command": "iverilog -o sim/vcd/tb_subtractor ${workspaceFolder}/rtl/ALU/subtractor.v ${workspaceFolder}/tb/ALU/tb_subtractor.v && cd sim/vcd && vvp tb_subtractor && surfer dump_sub.vcd",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+
+    // ============================================================
+    // 3. 乘法器 (时序逻辑)
+    // ============================================================
+    {
+      "label": "Run (Multiplier)",
+      "type": "shell",
+      "command": "iverilog -o sim/vcd/tb_multiplier ${workspaceFolder}/rtl/ALU/multiplier.v ${workspaceFolder}/tb/ALU/tb_multiplier.v && cd sim/vcd && vvp tb_multiplier && surfer dump_mul.vcd",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+
+    // ============================================================
+    // 4. 除法器 (时序逻辑)
+    // ============================================================
+    {
+      "label": "Run (Divider)",
+      "type": "shell",
+      "command": "iverilog -o sim/vcd/tb_divider ${workspaceFolder}/rtl/ALU/divider.v ${workspaceFolder}/tb/ALU/tb_divider.v && cd sim/vcd && vvp tb_divider && surfer dump_div.vcd",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+
+    // ============================================================
+    // 5. ALU Top
+    // ============================================================
+    {
+      "label": "Run (ALU Top)",
+      "type": "shell",
+      "command": "iverilog -o sim/vcd/tb_alu_top ${workspaceFolder}/rtl/ALU/adder_kogger_stone.v ${workspaceFolder}/rtl/ALU/subtractor.v ${workspaceFolder}/rtl/ALU/multiplier.v ${workspaceFolder}/rtl/ALU/divider.v ${workspaceFolder}/rtl/ALU/alu_top.v ${workspaceFolder}/tb/ALU/tb_alu_top.v && cd sim/vcd && vvp tb_alu_top && surfer dump_alu.vcd",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+
+    // ============================================================
+    // 6. 存储器 (data_mem)
+    // ============================================================
+    {
+      "label": "Run (Memory)",
+      "type": "shell",
+      "command": "iverilog -o sim/vcd/tb_mem ${workspaceFolder}/rtl/storage/mem.v ${workspaceFolder}/tb/storage/tb_mem.v && cd sim/vcd && vvp tb_mem && surfer dump_mem.vcd",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+
+    // ============================================================
+    // 7. 寄存器堆 (reg_file)
+    // ============================================================
+    {
+      "label": "Run (RegFile)",
+      "type": "shell",
+      "command": "iverilog -o sim/vcd/tb_reg ${workspaceFolder}/rtl/storage/reg.v ${workspaceFolder}/tb/storage/tb_reg.v && cd sim/vcd && vvp tb_reg && surfer dump_reg.vcd",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+
+    // ============================================================
+    // 8. CPU Core
+    // ============================================================
+    {
+      "label": "Run (Core)",
+      "type": "shell",
+      "command": "iverilog -o sim/vcd/tb_core ${workspaceFolder}/rtl/ALU/adder_kogger_stone.v ${workspaceFolder}/rtl/ALU/subtractor.v ${workspaceFolder}/rtl/ALU/multiplier.v ${workspaceFolder}/rtl/ALU/divider.v ${workspaceFolder}/rtl/ALU/alu_top.v ${workspaceFolder}/rtl/storage/mem.v ${workspaceFolder}/rtl/storage/reg.v ${workspaceFolder}/rtl/core/control_unit.v ${workspaceFolder}/rtl/core/datapath.v ${workspaceFolder}/rtl/core/top_cpu.v ${workspaceFolder}/tb/core/tb_core.v && cd sim/vcd && vvp tb_core && surfer cpu_sim.vcd",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+
+    // ============================================================
+    // 9. 运行所有仿真 (all)
+    // ============================================================
+    {
+      "label": "Run (All Simulations)",
+      "type": "shell",
+      "command": "./sim/bash/run_sim.sh all",
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    }
+  ]
+}

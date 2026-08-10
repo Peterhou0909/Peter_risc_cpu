@@ -35,6 +35,9 @@ module tb_data_mem();
     always #5 clk = ~clk;
 
     initial begin
+        $dumpfile("dump_mem.vcd");
+        $dumpvars(0, uut);
+
         we = 0; addr = 0; din = 0;
         #20;
 

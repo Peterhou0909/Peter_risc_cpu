@@ -40,6 +40,8 @@ module tb_reg_file();
     always #5 clk = ~clk;
 
     initial begin
+        $dumpfile("dump_reg.vcd");
+        $dumpvars(0, uut);
         // 初始化
         rst_n = 0; we = 0; ra1 = 0; ra2 = 0; wa = 0; wd = 0;
         #20 rst_n = 1;

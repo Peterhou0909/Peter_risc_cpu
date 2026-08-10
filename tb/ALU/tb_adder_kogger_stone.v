@@ -38,7 +38,7 @@ module tb_kogge_stone_32();
         .cout(cout)
     );
 
-    // 辅助变量：用于生成黄金参考结果进行比对
+    // 辅助变量：用于生成参考结果进行比对
     wire [32:0] reference_result = a + b + cin;
     wire [31:0] ref_sum  = reference_result[31:0];
     wire        ref_cout = reference_result[32];
@@ -47,6 +47,8 @@ module tb_kogge_stone_32();
     integer errors = 0;
 
     initial begin
+        $dumpfile("dump_add.vcd");
+        $dumpvars(0, uut);
         // 初始化信号
         a = 0;
         b = 0;

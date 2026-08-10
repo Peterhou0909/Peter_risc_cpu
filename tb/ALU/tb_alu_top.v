@@ -61,6 +61,8 @@ module tb_alu_top_v2();
 
     // --- 5. 测试流程 ---
     initial begin
+        $dumpfile("dump_alu_top.vcd");
+        $dumpvars(0, uut);
         // 初始化
         rst_n = 0; start = 0; alu_op = 0; a = 0; b = 0;
         #20 rst_n = 1;

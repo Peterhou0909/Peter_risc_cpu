@@ -41,8 +41,8 @@ module tb_top_cpu();
 
     // 4. 程序加载与仿真逻辑
     initial begin
-        // Mac 环境波形导出
-        $dumpfile("cpu_sim.vcd");
+        
+        $dumpfile("dump_core.vcd");
         $dumpvars(0, dut);
 
         // 初始化

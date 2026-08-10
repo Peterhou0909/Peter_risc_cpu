@@ -1,0 +1,29 @@
+$date
+	Mon Aug 10 22:11:24 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module subtractor32_tb $end
+$scope module uut $end
+$var wire 32 ! a [31:0] $end
+$var wire 32 " b [31:0] $end
+$var wire 32 # diff [31:0] $end
+$var wire 1 $ cout $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+0$
+b111100 #
+b101000 "
+b1100100 !
+$end
+#10000
